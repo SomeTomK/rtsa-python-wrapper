@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import ctypes, sys, time
+import ctypes, time
 import numpy as np
 from typing import Self
 from ctypes import c_int, c_uint64, c_int64, c_uint32, c_int32, c_double, c_float, c_wchar, c_wchar_p, c_void_p, c_bool, POINTER, pointer, Structure, sizeof
@@ -425,7 +425,7 @@ class DeviceWrapper:
             raise RuntimeError(f"Failed to set float {value} for config item \"{cinfo.name}\": {AARTSAAPI_Result(res)}")
         elif res & AARTSAAPI_Result.WARNING:
             cinfo = self.__config_get_info(config)
-            print(f"Failed to set float {value} of config item \"{cinfo.name}\": {AARTSAAPI_Result(res)}", file=sys.stderr) # TODO has repetitions; no prints in module!
+            print(f"Failed to set float {value} of config item \"{cinfo.name}\": {AARTSAAPI_Result(res)}") # TODO has repetitions; no prints in module!
 
     def __config_get_float(self, config: AARTSAAPI_Config) -> float:
         ret = c_double()
@@ -440,7 +440,7 @@ class DeviceWrapper:
         if res & AARTSAAPI_Result.ERROR:
             raise RuntimeError(f"Failed to set string {value} for config item \"{cinfo.name}\": {AARTSAAPI_Result(res)}")
         elif res & AARTSAAPI_Result.WARNING:
-            print(f"Failed to set string {value} of config item \"{cinfo.name}\": {AARTSAAPI_Result(res)}", file=sys.stderr)
+            print(f"Failed to set string {value} of config item \"{cinfo.name}\": {AARTSAAPI_Result(res)}")
 
     def __config_get_string(self, config: AARTSAAPI_Config) -> str:
         ret = (c_wchar * 1000)()
@@ -456,7 +456,7 @@ class DeviceWrapper:
         if res & AARTSAAPI_Result.ERROR:
             raise RuntimeError(f"Failed to set integer {value} for config item \"{cinfo.name}\": {AARTSAAPI_Result(res)}")
         elif res & AARTSAAPI_Result.WARNING:
-            print(f"WARNING: Failed to set integer {value} of config item \"{cinfo.name}\": {AARTSAAPI_Result(res)}", file=sys.stderr)
+            print(f"WARNING: Failed to set integer {value} of config item \"{cinfo.name}\": {AARTSAAPI_Result(res)}")
 
     def __config_get_integer(self, config: AARTSAAPI_Config) -> int:
         ret = c_int64()
@@ -472,7 +472,7 @@ class DeviceWrapper:
         if res == AARTSAAPI_Result.ERROR_INVALID_CONFIG:
             return False
         if res != AARTSAAPI_Result.OK:
-            raise RuntimeError(f"Failed to get integer: {AARTSAAPI_Result(res)}")
+            raise RuntimeError(f"Failed to get bool: {AARTSAAPI_Result(res)}")
         return bool(ret.value)
         
     def __get_children(self, group: AARTSAAPI_Config) -> list[AARTSAAPI_Config]:
@@ -521,6 +521,17 @@ class DeviceWrapper:
         else:
             raise RuntimeError(f"Unknown config type of enumeration value: {cinfo.type}")
         return {f"{cinfo.name}" : res}
+    
+    def __print_info(self, cinfo: AARTSAAPI_ConfigInfo) -> None:
+        print(f"""Config name: {cinfo.name}, 
+              title: {cinfo.title}, 
+              type: {AARTSAAPI_ConfigType(cinfo.type)}, 
+              minValue: {cinfo.minValue}, 
+              maxValue: {cinfo.maxValue}, 
+              stepValue: {cinfo.stepValue}, 
+              unit: {cinfo.unit}, 
+              options: {cinfo.options}, 
+              disabledOptions: {cinfo.disabledOptions}""")
     
     def __dict_to_paths(self, d: dict, parent_key=""):
         paths = []
