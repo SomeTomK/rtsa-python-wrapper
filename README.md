@@ -12,7 +12,7 @@ The wrapper is designed to be used with context managers. Here is a basic exampl
 ```python=
 import rtsa-python-wrapper as rpw
 
-with rpw.RTSAWrapper(rpa.AARTSAAPI_Wrapper_MemoryMode.MEDIUM) as wrapper:
+with rpw.RTSAWrapper(rpw.AARTSAAPI_Wrapper_MemoryMode.MEDIUM) as wrapper:
     devices = wrapper.get_all_devices()
     with wrapper.instantiate_device(devices[0], rpw.AARTSAAPI_Wrapper_DeviceMode.RAW) as device:
         device_config = {
