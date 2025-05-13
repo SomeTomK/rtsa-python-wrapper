@@ -55,7 +55,7 @@ The conf.json can in turn be used to configure the device.
 
 The wrapper uses numpy, because it features a zero-copy ctypes structs casting, to extract the packet payload
 ```
-packet = spectran.get_packet()
+packet_data = packet.get_sample_as_ndarray()
 ```
 
 ### Prerequisites
