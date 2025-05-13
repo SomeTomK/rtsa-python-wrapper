@@ -70,8 +70,12 @@ class AARTSAAPI_Wrapper_MemoryMode(PrintIntEnum):
     LARGE                       = 2
     LUDICRIOUS                  = 3
 
-class AARTSAAPT_Trigger(PrintIntEnum):
-    C0                          = 0x1000_0000 # TODO find out bitmask of other trigger flags
+class AARTSAAPT_PacketFlags(PrintIntEnum):
+    PACKET_DROP_WARN            = 0x200
+    C0                          = 0x1000_0000
+    C1                          = 0x2000_0000
+    C2                          = 0x4000_0000
+    C3                          = 0x8000_0000
 
 
 # Structs
