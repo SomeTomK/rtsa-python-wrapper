@@ -182,7 +182,7 @@ def struct_copy(src):
     pointer(dst)[0] = src
     return dst
 
-def api(path="/opt/aaronia-rtsa-suite/Aaronia-RTSA-Suite-PRO/libAaroniaRTSAAPI.so"):
+def api(path):
 
     librtsaapi = ctypes.CDLL(path)
 
@@ -637,8 +637,8 @@ class DeviceWrapper:
 
 class RTSAWrapper:
 
-    def __init__(self, memoryMode: AARTSAAPI_Wrapper_MemoryMode) -> None:
-        self.__librtsaapi = api()
+    def __init__(self, memoryMode: AARTSAAPI_Wrapper_MemoryMode, path="/opt/aaronia-rtsa-suite/Aaronia-RTSA-Suite-PRO/libAaroniaRTSAAPI.so") -> None:
+        self.__librtsaapi = api(path)
         self.__mAPIHandle = None
         self.__mDevices = None
         self.memoryMode = memoryMode
