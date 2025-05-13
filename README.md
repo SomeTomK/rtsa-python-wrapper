@@ -37,9 +37,9 @@ with rpw.RTSAWrapper(rpw.AARTSAAPI_Wrapper_MemoryMode.MEDIUM) as wrapper:
         device.start()
         packet = device.get_packet()
 ```
-The first contextmanager starts the rtsa api to get a list of devices. The second context manager simply opens the first device in the list. 
+The first context manager starts the rtsa api to get a list of devices. The second one simply opens the first device in the list. 
 
-The Spectran V6 uses a tree-like configuration structure which is represented as nested dictionaries in Python. The configuration is loaded one-by-one by walking through the dict recursively. That means the chronological order matters since the spectran checks each config element! For example if you want to use a low centerfrequency you have to bypass the rffilter. Otherwise, you might get an error.
+The Spectran V6 uses a tree-like configuration structure which is represented as nested dictionaries. The configuration is loaded one-by-one by walking through the dict recursively. That means the chronological order inside the config dict matters! For example, to use a low centerfrequency you have to bypass the rffilter first. Otherwise, you might get an error.
 
 After starting (and therewith connecting to) the device, packets can be received. The packets structure resembles the packet struct of the API.
 
@@ -49,11 +49,11 @@ The configuration can also be read from the device as follows:
 with open('conf.json', 'w') as file:
     json.dump(device.get_config(), file, indent=4)
 ```
-The conf.json can in turn be used to configure the device.
+The conf.json can in turn be pushed to the device.
 
 ### Numpy
 
-To extract the packet payload u can use the `get_sample_as_ndarray()` that internally casts the data as numpy array without copying it!
+To extract the packet payload you can use the `get_sample_as_ndarray()` that internally casts the data as numpy array without copying it!
 ```
 packet_data = packet.get_sample_as_ndarray()
 ```
