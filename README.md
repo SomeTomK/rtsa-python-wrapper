@@ -12,7 +12,7 @@ The wrapper is designed to be used with context managers. Here is a basic exampl
 ```python=
 import rtsa-python-wrapper as rpw
 
-with rpa.RTSAWrapper(rpa.AARTSAAPI_Wrapper_MemoryMode.MEDIUM) as wrapper:
+with rpw.RTSAWrapper(rpa.AARTSAAPI_Wrapper_MemoryMode.MEDIUM) as wrapper:
     devices = wrapper.get_all_devices()
     with wrapper.instantiate_device(devices[0], rpw.AARTSAAPI_Wrapper_DeviceMode.RAW) as device:
         device_config = {
@@ -53,7 +53,7 @@ The conf.json can in turn be used to configure the device.
 
 ### Numpy
 
-The wrapper uses numpy, because it features a zero-copy ctypes structs casting, to extract the packet payload
+To extract the packet payload u can use the `get_sample_as_ndarray()` that internally casts the data as numpy array without copying it!
 ```
 packet_data = packet.get_sample_as_ndarray()
 ```
